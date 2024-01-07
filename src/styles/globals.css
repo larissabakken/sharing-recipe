@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --background: #f4f4f4;
+    --background-dark: #171b33;
+    --primary-color: #0c742d;
+    --primary-color-dark: #1a432a;
+    --secondary-color: #FE861F;
+    --secondary-color-dark: #E2784D;
+    --error: #ff4d4d;
+    --text-color: #2a2a2a;
+}
+
+body {
+    @apply min-h-screen bg-gradient-to-b from-[var(--primary-color)] to-[var(--background-dark)] font-mono;
+}
+p, span {
+    @apply text-[var(--text-color)]
+}
+
+button {
+    @apply inline-flex items-center justify-center rounded-md bg-[var(--primary-color)] px-3 py-2 text-sm font-semibold text-gray-100 shadow-md ring-1 ring-inset ring-gray-300 hover:bg-[var(--primary-color-dark)];
+}
