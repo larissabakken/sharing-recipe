@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
+import * as bcrypt from 'bcrypt';
 
 export const recipeRouter = createTRPCRouter({
   hello: publicProcedure
@@ -71,13 +72,32 @@ export const recipeRouter = createTRPCRouter({
       // simulate a slow db call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
+      const existingUser = await ctx.db.user.findFirst({
+        select: {
+          id: true,
+        },
+      });
+
+      let userId = existingUser?.id;
+
+      if (!existingUser) {
+        const newUser = await ctx.db.user.create({
+          data: {
+            name: 'Anonymous',
+            email: 'anonymous@gmail.com',
+            password: await bcrypt.hash('password123', 10),
+          },
+        });
+        userId = newUser.id;
+      }
+
       return ctx.db.recipe.create({
         data: {
           title: input.title,
           ingredients: input.ingredients,
           servings: input.servings,
           instructions: input.instructions,
-          userId: input.userId,
+          userId: userId as string,
         },
       });
     }),

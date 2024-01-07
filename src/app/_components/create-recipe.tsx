@@ -19,7 +19,7 @@ export default function CreateRecipe() {
   const onSubmit = async (data: any) => {
     try {
       createPost.mutate({
-        userId: '4e33ce56-508a-45a2-952b-5cf6adfdd274',
+        userId: 'userID',
         title: data.title,
         ingredients: data.ingredients,
         servings: data.servings,
